@@ -70,14 +70,10 @@ text_substitutions=[
 changes=[]
 
 def get_repo_subtitle(name):
-    if name in subtitles:
-        return subtitles[name]
-    return name.capitalize()
+    return subtitles[name] if name in subtitles else name.capitalize()
 
 def get_repo_priority(name):
-    if name in top_repos:
-        return top_repos.index(name)
-    return len(top_repos)
+    return top_repos.index(name) if name in top_repos else len(top_repos)
 
 # using an access token
 g = Github(githubToken)

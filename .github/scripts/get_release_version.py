@@ -17,23 +17,23 @@ with open(os.getenv("GITHUB_ENV"), "a") as githubEnv:
 
     if gitRef is None or not gitRef.startswith(tagRefPrefix):
         githubEnv.write("REL_VERSION=edge\n")
-        print ("This is daily build from {}...".format(gitRef))
+        print(f"This is daily build from {gitRef}...")
         sys.exit(0)
 
     releaseVersion = gitRef[len(tagRefPrefix):]
-    releaseNotePath="docs/release_notes/v{}.md".format(releaseVersion)
+    releaseNotePath = f"docs/release_notes/v{releaseVersion}.md"
 
     if gitRef.find("-rc.") > 0:
-        print ("Release Candidate build from {}...".format(gitRef))
+        print(f"Release Candidate build from {gitRef}...")
     else:
-        print ("Checking if {} exists".format(releaseNotePath))
+        print(f"Checking if {releaseNotePath} exists")
         if os.path.exists(releaseNotePath):
-            print ("Found {}".format(releaseNotePath))
+            print(f"Found {releaseNotePath}")
             # Set LATEST_RELEASE to true
             githubEnv.write("LATEST_RELEASE=true\n")
         else:
-            print ("{} is not found".format(releaseNotePath))
+            print(f"{releaseNotePath} is not found")
             sys.exit(1)
-        print ("Release build from {}...".format(gitRef))
+        print(f"Release build from {gitRef}...")
 
-    githubEnv.write("REL_VERSION={}\n".format(releaseVersion))
+    githubEnv.write(f"REL_VERSION={releaseVersion}\n")
